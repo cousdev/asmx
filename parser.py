@@ -14,9 +14,9 @@ valid_instruction_tokens = [
     "store"
 ]
 
-valid_user_registers = { f"u{i}" for i in range(8) }
-valid_assembler_registers = { f"a{i}" for i in range(4) }
-valid_registers = valid_user_registers | valid_assembler_registers
+valid_user_registers = { f"u{i}" for i in range(1, 9) }
+valid_auto_registers = { f"a{i}" for i in range(1, 5) } 
+valid_registers = valid_user_registers | valid_auto_registers
 
 valid_instruction_grammar = {
     "add": ["register", "register_or_immediate"],
@@ -24,9 +24,9 @@ valid_instruction_grammar = {
     "mul": ["register", "register_or_immediate"],
     "div": ["register", "register_or_immediate"],
     "set": ["register", "immediate"],
-    "inc": ["register", "immediate"],
-    "dec": ["register", "immediate"],
-    "cmp": ["register"],
+    "inc": ["register"],
+    "dec": ["register"],
+    "cmp": ["register", "register"],
     "mov": ["register", "register"],
     "jmp": ["label"],
     "halt": [],
@@ -61,11 +61,6 @@ class TokenStream:
         elif kind == "register":
             if token not in valid_registers:
                 raise SyntaxError(f"[Line {self.line_num}] Expected register, got '{token}'.")
-            return token
-        
-        elif kind == "user_register":
-            if token not in valid_user_registers:
-                raise SyntaxError(f"[Line {self.line_num}] Expected user register, got '{token}'.")
             return token
         
         elif kind == "immediate":
