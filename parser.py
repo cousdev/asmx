@@ -11,7 +11,11 @@ valid_instruction_tokens = [
     "jmp",
     "halt",
     "load",
-    "store"
+    "store",
+    "jlt",
+    "jeq",
+    "jgt",
+    "rand"
 ]
 
 valid_user_registers = { f"u{i}" for i in range(1, 9) }
@@ -30,8 +34,12 @@ valid_instruction_grammar = {
     "mov": ["register", "register"],
     "jmp": ["label"],
     "halt": [],
-    "load": ["ram_address", "register"],
-    "store": ["ram_address", "register"]
+    "load": ["register", "ram_address"],
+    "store": ["ram_address", "register"],
+    "jlt": ["register", "label"],
+    "jeq": ["register", "label"],
+    "jgt": ["register", "label"],
+    "rand": ["register", "register_or_immediate", "register_or_immediate"]
 }
 
 class TokenStream:

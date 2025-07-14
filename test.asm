@@ -1,7 +1,4 @@
-; Testing out CMP functionality!
-SET u1 #30 ; Set register u1 to 30.
-SET u2 #20 ; Set register u2 to 20.
-
-CMP u1 u2 ; Run u1 - u2 and produce flags.
-
-@test_label
+; This script is designed to test random operations on the VM.
+SET u2 #20
+RAND u1 #3 u2
+HALT

@@ -1,5 +1,4 @@
-set_1_30
 set_2_20
-mov_9_1
-sub_9_2
-cmp_9_9
+set_9_3
+rand_1_9_2
+halt

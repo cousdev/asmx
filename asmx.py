@@ -23,14 +23,10 @@ for line_num, line in source_file:
 
 instructions = macros.dispatch_macros(results)
 print(instructions)
-print("\n\n")
 
 address_table = codegen.find_labels(instructions)
-print(address_table)
-print("\n\n")
 
 generated_code = codegen.generate_code(instructions, address_table)
-print(generated_code)
 
 codegen.write_output_file(dest_file_location, generated_code)
 print("Finished!")
