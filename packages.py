@@ -2,8 +2,9 @@ import os
 import importlib.util
 import parser
 
+macro_packages = {}
+
 def load_all_packages(package_dir="packages"):
-    macro_packages = {}
 
     for filename in os.listdir(package_dir):
         if not filename.endswith(".py") or filename.startswith("__"):
@@ -26,7 +27,10 @@ def load_all_packages(package_dir="packages"):
                 raise ValueError(f"Duplicate namespace '{namespace}' found in {filename}")
         
             macro_packages[namespace] = reg
-        else:
-            print(f"[Warning] Skipping '{filename}': Macro Registry could not be found.")
+            parser.register_package_macros(namespace, reg)
 
-    parser.register_package_macros(macro_packages)
+        else:
+            print(f"[Warning] Skipping '{filename}': Package Registry could not be found.")
+
+def get_all_macro_registries():
+    return macro_packages

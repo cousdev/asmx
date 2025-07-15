@@ -44,7 +44,7 @@ valid_instruction_grammar = {
     "hardcall": ["immediate"]
 }
 
-package_namespace = {}
+package_namespaces = {}
 
 class TokenStream:
     def __init__(self, tokens, line_num):
@@ -71,7 +71,7 @@ class TokenStream:
             if token in valid_instruction_tokens:
                 return token # Regular instruction
             
-            if token in package_namespace:
+            if token in package_namespaces:
                 return token # Namespace instruction
         
             raise SyntaxError(f"[Line {self.line_num}] Expected instruction, got '{token}'.")
@@ -120,14 +120,46 @@ class TokenStream:
             else:
                 raise SyntaxError(f"[Line {self.line_num}] Expected RAM address (e.g. #12 or @label), got '{token}'")
 
+        elif kind == "string":
+            if not (token.startswith('"') and token.endswith('"')):
+                raise SyntaxError(f"[Line {self.line_num}] Expected string, got '{token}'")
+            
+            return token[1:-1]
+
         else:
             raise ValueError(f"Unknown expect type: {kind}")
         
 
 def parse_instruction(ts: TokenStream):
-    opcode = ts.expect("instruction")
+    first_token = ts.expect("instruction") # This could either be a real instruction, or a namespace.
 
-    expected_args = valid_instruction_grammar[opcode]
+    if first_token in package_namespaces:
+        subcommand = ts.next().lower()
+        if subcommand is None:
+            raise SyntaxError(f"[Line {ts.line_num}] Expected subcommand after namespace '{first_token}'")
+        
+        print(package_namespaces[first_token])
+        grammar = package_namespaces[first_token]["grammar"].get(subcommand)
+        if grammar is None:
+            raise SyntaxError(f"[Line {ts.line_num}] Unknown subcommand '{subcommand}' in namespace '{first_token}'")
+
+        parsed_args = []
+        for expected_type in grammar:
+            parsed_args.append(ts.expect(expected_type))
+
+        if ts.peek() is not None:
+            raise SyntaxError(f"[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'")
+        
+        return {
+            "type": "macro",
+            "namespace": first_token,
+            "subcommand": subcommand,
+            "args": parsed_args,
+            "line_num": ts.line_num
+        }
+
+    # Regular instruction
+    expected_args = valid_instruction_grammar[first_token]
     parsed_args = []
 
     for expected_type in expected_args:
@@ -140,7 +172,7 @@ def parse_instruction(ts: TokenStream):
     
     return {
         "type": "instruction",
-        "opcode": opcode,
+        "opcode": first_token,
         "args": parsed_args,
         "line_num": ts.line_num
     }
@@ -154,4 +186,4 @@ def parse_line(tokens, line_num):
     return parse_instruction(TokenStream(tokens, line_num))
 
 def register_package_macros(namespace, macros):
-    package_namespace[namespace] = macros
+    package_namespaces[namespace] = macros

@@ -1,27 +1,52 @@
 import parser
+import packages
 
 TEMP_REGISTER = "a1"
 TEMP_MIN = "a1"
 TEMP_MAX = "a2"
 
-def dispatch_macros(instruction_list):
+def dispatch_macros(instruction_list, max_passes=10):
     #print(instruction_list)
     i = 0
+    passes = 0
+
     while i < len(instruction_list):
         instruction = instruction_list[i]
+        if passes > max_passes:
+            raise RuntimeError("Macro expansion exceeded max passes. Possible infinite recursion.")
 
-        # Skip labels or other non-instruction entries
-        if instruction.get("type") != "instruction":
+        if instruction.get("type") == "label":
             i += 1
             continue
 
-        opcode = instruction["opcode"]
+        if instruction.get("type") == "macro":
+            print("Processing macro")
+            namespace = instruction["namespace"]
+            subcommand = instruction["subcommand"].lower()
+            
+            registry = packages.get_all_macro_registries().get(namespace)
+            if not registry:
+                raise ValueError(f"No macro package registered for namespace '{namespace}'")
+            
+            macro_fn = registry["macros"].get(subcommand)
+            if not macro_fn:
+                raise ValueError(f"No macro expansion function found for '{namespace} {subcommand}'")
 
-        # Try find a suitable opcode specific expander
-        expander = macro_expanders.get(opcode)
-        expansion = expander(instruction) if expander else None
+            expansion = macro_fn(instruction)
 
-        
+        elif instruction.get("type") == "instruction":
+            opcode = instruction["opcode"]
+
+            # Try find a suitable opcode specific expander
+            expander = macro_expanders.get(opcode)
+            if expander:
+                expansion = expander(instruction)
+            else:
+                expansion = None
+
+        else:
+            expansion = None
+
         if expansion:
             print("Expanded with the result:")
             print(expansion)
@@ -40,7 +65,11 @@ def dispatch_macros(instruction_list):
                     raise TypeError(f"Invalid macro expansion item: {line}")
 
             instruction_list[i:i+1] = parsed_instructions
-            i += len(parsed_instructions)
+            
+            passes += 1
+            # Recheck the newly inserted instructions for further expansions
+            # so do not increment i here.
+            
         else:
             print("Wasn't expanded.")
             i += 1

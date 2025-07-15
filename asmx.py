@@ -10,7 +10,7 @@ import sys
 
 packages.load_all_packages()
 
-"""
+
 source_file_location = sys.argv[1]
 dest_file_location = sys.argv[2]
 source_file = tokeniser.read_source_file(source_file_location)
@@ -19,7 +19,7 @@ source_file = tokeniser.read_source_file(source_file_location)
 results = []
 
 for line_num, line in source_file:
-        tokens = line.split()
+        tokens = tokeniser.tokenize_line_with_strings(line)
         try:
             results.append(parser.parse_line(tokens, line_num))
         except SyntaxError as e:
@@ -35,4 +35,3 @@ generated_code = codegen.generate_code(instructions, address_table)
 
 codegen.write_output_file(dest_file_location, generated_code)
 print("Finished!")
-"""
