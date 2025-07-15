@@ -103,6 +103,10 @@ def expand_cmp(instruction):
 
 
 def expand_jmp(instruction):
+    # If already low-level jmp, just return None (no expansion)
+    if isinstance(instruction["args"][0], int):
+        return None
+
     register = None
     label = None
     line_number = instruction["line_num"]
