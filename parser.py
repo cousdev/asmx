@@ -15,7 +15,8 @@ valid_instruction_tokens = [
     "jlt",
     "jeq",
     "jgt",
-    "rand"
+    "rand",
+    "hardcall"
 ]
 
 valid_user_registers = { f"u{i}" for i in range(1, 9) }
@@ -39,8 +40,11 @@ valid_instruction_grammar = {
     "jlt": ["register", "label"],
     "jeq": ["register", "label"],
     "jgt": ["register", "label"],
-    "rand": ["register", "register_or_immediate", "register_or_immediate"]
+    "rand": ["register", "register_or_immediate", "register_or_immediate"],
+    "hardcall": ["immediate"]
 }
+
+package_namespace = {}
 
 class TokenStream:
     def __init__(self, tokens, line_num):
@@ -62,9 +66,15 @@ class TokenStream:
             raise SyntaxError(f"[Line {self.line_num}] Expected {kind}, but got end of line.")
 
         if kind == "instruction":
-            if token.lower() not in valid_instruction_tokens:
-                raise SyntaxError(f"[Line {self.line_num}] Expected instruction, got '{token}'.")
-            return token.lower()
+            token = token.lower()
+                
+            if token in valid_instruction_tokens:
+                return token # Regular instruction
+            
+            if token in package_namespace:
+                return token # Namespace instruction
+        
+            raise SyntaxError(f"[Line {self.line_num}] Expected instruction, got '{token}'.")
 
         elif kind == "register":
             if token not in valid_registers:
@@ -136,7 +146,12 @@ def parse_instruction(ts: TokenStream):
     }
 
 def parse_line(tokens, line_num):
+    if not tokens:
+        raise SyntaxError(f"[Line {line_num}] Empty or invalid line.")
+    
     if tokens[0].startswith("@"):
         return {"type": "label", "name": tokens[0][1:], "line_num": line_num}
-    ts = TokenStream(tokens, line_num)
-    return parse_instruction(ts)
+    return parse_instruction(TokenStream(tokens, line_num))
+
+def register_package_macros(namespace, macros):
+    package_namespace[namespace] = macros

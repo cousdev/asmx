@@ -1,4 +1,0 @@
-set_2_20
-set_9_3
-rand_1_9_2
-halt

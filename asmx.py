@@ -4,12 +4,17 @@ import tokeniser
 import parser
 import macros
 import codegen
+import packages
 
 import sys
 
+packages.load_all_packages()
+
+"""
 source_file_location = sys.argv[1]
 dest_file_location = sys.argv[2]
 source_file = tokeniser.read_source_file(source_file_location)
+
 
 results = []
 
@@ -30,3 +35,4 @@ generated_code = codegen.generate_code(instructions, address_table)
 
 codegen.write_output_file(dest_file_location, generated_code)
 print("Finished!")
+"""
