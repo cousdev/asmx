@@ -13,7 +13,8 @@ def dispatch_macros(instruction_list, max_passes=10):
     while i < len(instruction_list):
         instruction = instruction_list[i]
         if passes > max_passes:
-            raise RuntimeError("Macro expansion exceeded max passes. Possible infinite recursion.")
+            print("Macro expansion exceeded max passes. Possible infinite recursion.")
+            exit(1)
 
         if instruction.get("type") == "label":
             i += 1
@@ -26,11 +27,13 @@ def dispatch_macros(instruction_list, max_passes=10):
             
             registry = packages.get_all_macro_registries().get(namespace)
             if not registry:
-                raise ValueError(f"No macro package registered for namespace '{namespace}'")
+                print(f"No macro package registered for namespace '{namespace}'")
+                exit(1)
             
             macro_fn = registry["macros"].get(subcommand)
             if not macro_fn:
-                raise ValueError(f"No macro expansion function found for '{namespace} {subcommand}'")
+                print(f"No macro expansion function found for '{namespace} {subcommand}'")
+                exit(1)
 
             expansion = macro_fn(instruction)
 
@@ -62,7 +65,8 @@ def dispatch_macros(instruction_list, max_passes=10):
                     parsed = parser.parse_line(tokens, instruction["line_num"])
                     parsed_instructions.append(parsed)
                 else:
-                    raise TypeError(f"Invalid macro expansion item: {line}")
+                    print(f"Invalid macro expansion item: {line}")
+                    exit(1)
 
             instruction_list[i:i+1] = parsed_instructions
             
@@ -71,12 +75,14 @@ def dispatch_macros(instruction_list, max_passes=10):
             # so do not increment i here.
             
         else:
-            print("Wasn't expanded.")
+            print("The following instruction was not expanded: ")
+            print(instruction)
             i += 1
                 
     return instruction_list
 
 def expand_immediates(instruction):
+    print("Immediate is being expanded.")
     args = instruction.get("args", [])
 
     # Expand instructions where the second argument is an immediate value.
@@ -95,6 +101,13 @@ def expand_immediates(instruction):
 def expand_cmp(instruction):
     left, right = instruction["args"]
 
+    # If already comparing temp register to itself, stop
+    if left == TEMP_REGISTER and right == TEMP_REGISTER:
+        return None
+
+    print("CMP is being expanded.")
+
+
     return [
         f"mov {TEMP_REGISTER} {left}",
         f"sub {TEMP_REGISTER} {right}",
@@ -106,6 +119,8 @@ def expand_jmp(instruction):
     # If already low-level jmp, just return None (no expansion)
     if isinstance(instruction["args"][0], int):
         return None
+
+    print("Jump is being expanded.")
 
     register = None
     label = None
@@ -151,8 +166,16 @@ def expand_jmp(instruction):
 
     
 def expand_rand(instruction):
-    expanded_lines = []
     dest, min_val, max_val = instruction["args"]
+
+    # If both min and max are already registers (not ints), no expansion needed
+    if not isinstance(min_val, int) and not isinstance(max_val, int):
+        return None  # Stop expanding here
+
+    print("RAND is being expanded.")
+
+    expanded_lines = []
+    
 
     if isinstance(min_val, int):
         expanded_lines.append(f"set {TEMP_MIN} #{min_val}"),

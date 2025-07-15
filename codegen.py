@@ -23,12 +23,14 @@ def normalise_arg(arg, label_addresses):
             # Assembler register: strip 'a', convert to int, add 8
             return int(arg[1:]) + 8
         else:
-            raise ValueError(f"Unknown argument string: {arg}")
+            print(f"Unknown argument string: {arg}")
+            exit(1)
     elif isinstance(arg, int):
         # Immediate number, leave as is
         return arg
     else:
-        raise TypeError(f"Unexpected argument type: {type(arg)}")
+        print(f"Unexpected argument type: {type(arg)}")
+        exit(1)
 
 
 def generate_code(instructions, label_addresses):

@@ -63,7 +63,8 @@ class TokenStream:
     def expect(self, kind):
         token = self.next()
         if token is None:
-            raise SyntaxError(f"[Line {self.line_num}] Expected {kind}, but got end of line.")
+            print(f"[Line {self.line_num}] Expected {kind}, but got end of line.")
+            exit(1)
 
         if kind == "instruction":
             token = token.lower()
@@ -74,27 +75,32 @@ class TokenStream:
             if token in package_namespaces:
                 return token # Namespace instruction
         
-            raise SyntaxError(f"[Line {self.line_num}] Expected instruction, got '{token}'.")
+            print(f"[Line {self.line_num}] Expected instruction, got '{token}'.")
+            exit(1)
 
         elif kind == "register":
             if token not in valid_registers:
-                raise SyntaxError(f"[Line {self.line_num}] Expected register, got '{token}'.")
+                print(f"[Line {self.line_num}] Expected register, got '{token}'.")
+                exit(1)
             return token
         
         elif kind == "immediate":
             if not token.startswith("#"):
-                raise SyntaxError(f"[Line {self.line_num}] Expected immediate value, got '{token}'.")
+                print(f"[Line {self.line_num}] Expected immediate value, got '{token}'.")
+                exit(1)
             
             try:
                 return int(token[1:])
             except ValueError:
-                raise SyntaxError(f"[Line {self.line_num}] Invalid number: '{token}'.")
+                print(f"[Line {self.line_num}] Invalid number: '{token}'.")
+                exit(1)
         
         elif kind == "label":
             if token.startswith("@"):
                 return token[1:]
             else:
-                raise SyntaxError(f"[Line {self.line_num}] Expected label, got '{token}'.")
+                print(f"[Line {self.line_num}] Expected label, got '{token}'.")
+                exit(1)
 
         elif kind == "register_or_immediate":
             if token in valid_registers:
@@ -103,9 +109,11 @@ class TokenStream:
                 try:
                     return int(token[1:])
                 except ValueError:
-                    raise SyntaxError(f"[Line {self.line_num}] Invalid immediate: '{token}'")
+                    print(f"[Line {self.line_num}] Invalid immediate: '{token}'")
+                    exit(1)
             else:
-                raise SyntaxError(f"[Line {self.line_num}] Expected register or immediate, got '{token}'")
+                print(f"[Line {self.line_num}] Expected register or immediate, got '{token}'")
+                exit(1)
         
         elif kind == "ram_address":
             # Immediate numeric address
@@ -113,21 +121,25 @@ class TokenStream:
                 try:
                     return int(token[1:])
                 except ValueError:
-                    raise SyntaxError(f"[Line {self.line_num}] Invalid RAM address: '{token}'")
+                    print(f"[Line {self.line_num}] Invalid RAM address: '{token}'")
+                    exit(1)
             # Label reference
             elif token.startswith("@"):
                 return token[1:]  # leave as unresolved label for now
             else:
-                raise SyntaxError(f"[Line {self.line_num}] Expected RAM address (e.g. #12 or @label), got '{token}'")
+                print(f"[Line {self.line_num}] Expected RAM address (e.g. #12 or @label), got '{token}'")
+                exit(1)
 
         elif kind == "string":
             if not (token.startswith('"') and token.endswith('"')):
-                raise SyntaxError(f"[Line {self.line_num}] Expected string, got '{token}'")
+                print(f"[Line {self.line_num}] Expected string, got '{token}'")
+                exit(1)
             
             return token[1:-1]
 
         else:
-            raise ValueError(f"Unknown expect type: {kind}")
+            print(f"Unknown expect type: {kind}")
+            exit(1)
         
 
 def parse_instruction(ts: TokenStream):
@@ -136,19 +148,22 @@ def parse_instruction(ts: TokenStream):
     if first_token in package_namespaces:
         subcommand = ts.next().lower()
         if subcommand is None:
-            raise SyntaxError(f"[Line {ts.line_num}] Expected subcommand after namespace '{first_token}'")
+            print(f"[Line {ts.line_num}] Expected subcommand after namespace '{first_token}'")
+            exit(1)
         
         print(package_namespaces[first_token])
         grammar = package_namespaces[first_token]["grammar"].get(subcommand)
         if grammar is None:
-            raise SyntaxError(f"[Line {ts.line_num}] Unknown subcommand '{subcommand}' in namespace '{first_token}'")
+            print(f"[Line {ts.line_num}] Unknown subcommand '{subcommand}' in namespace '{first_token}'")
+            exit(1)
 
         parsed_args = []
         for expected_type in grammar:
             parsed_args.append(ts.expect(expected_type))
 
         if ts.peek() is not None:
-            raise SyntaxError(f"[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'")
+            print(f"[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'")
+            exit(1)
         
         return {
             "type": "macro",
@@ -168,7 +183,8 @@ def parse_instruction(ts: TokenStream):
 
     # Make sure there are no additional arguments that should not be there
     if ts.peek() is not None:
-        raise SyntaxError(f"[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'")
+        print(f"[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'")
+        exit(1)
     
     return {
         "type": "instruction",
@@ -179,7 +195,8 @@ def parse_instruction(ts: TokenStream):
 
 def parse_line(tokens, line_num):
     if not tokens:
-        raise SyntaxError(f"[Line {line_num}] Empty or invalid line.")
+        print(f"[Line {line_num}] Empty or invalid line.")
+        exit(1)
     
     if tokens[0].startswith("@"):
         return {"type": "label", "name": tokens[0][1:], "line_num": line_num}

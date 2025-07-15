@@ -24,7 +24,8 @@ def load_all_packages(package_dir="packages"):
             namespace = reg["namespace"]
 
             if namespace in macro_packages:
-                raise ValueError(f"Duplicate namespace '{namespace}' found in {filename}")
+                print(f"Duplicate namespace '{namespace}' found in {filename}")
+                exit(1)
         
             macro_packages[namespace] = reg
             parser.register_package_macros(namespace, reg)
