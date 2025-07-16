@@ -48,7 +48,8 @@ All contributions are welcome! You could:
 - Submit new demo programs or games
 - Help add new features
 - Simplify code
-- Even testing!
+- Write tests
+- Expand the VM's capabilities
 
 If you're interested, just open an issue or pull request. Make sure your code is clean and commented where necessary.
 
