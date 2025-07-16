@@ -5,15 +5,20 @@ TEMP_REGISTER = "a1"
 TEMP_MIN = "a1"
 TEMP_MAX = "a2"
 
-def dispatch_macros(instruction_list, max_passes=10):
-    #print(instruction_list)
+RESET = "\033[0m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+
+def dispatch_macros(instruction_list, max_passes=50):
     i = 0
     passes = 0
 
     while i < len(instruction_list):
+        print(f"{YELLOW}[Macro Pass Count] Macro pass round: {passes}")
         instruction = instruction_list[i]
         if passes > max_passes:
-            print("Macro expansion exceeded max passes. Possible infinite recursion.")
+            print(f"{RED}[Macro Recursion] Macro expansion exceeded max passes. Possible infinite recursion.{RESET}")
             exit(1)
 
         if instruction.get("type") == "label":
@@ -21,18 +26,18 @@ def dispatch_macros(instruction_list, max_passes=10):
             continue
 
         if instruction.get("type") == "macro":
-            print("Processing macro")
             namespace = instruction["namespace"]
             subcommand = instruction["subcommand"].lower()
+            print(f"{GREEN}[Macro Notification] Processing macro '{namespace} {subcommand}'{RESET}")
             
             registry = packages.get_all_macro_registries().get(namespace)
             if not registry:
-                print(f"No macro package registered for namespace '{namespace}'")
+                print(f"{RED}[Error] No macro package registered for namespace '{namespace}'{RESET}")
                 exit(1)
             
             macro_fn = registry["macros"].get(subcommand)
             if not macro_fn:
-                print(f"No macro expansion function found for '{namespace} {subcommand}'")
+                print(f"{RED}[Error] No macro expansion function found for '{namespace} {subcommand}'{RESET}")
                 exit(1)
 
             expansion = macro_fn(instruction)
@@ -51,7 +56,7 @@ def dispatch_macros(instruction_list, max_passes=10):
             expansion = None
 
         if expansion:
-            print("Expanded with the result:")
+            print(f"{GREEN}[Expansion] Expansion result for {instruction}:{RESET}")
             print(expansion)
 
             # Convert expanded lines to parsed instruction dicts
@@ -65,7 +70,7 @@ def dispatch_macros(instruction_list, max_passes=10):
                     parsed = parser.parse_line(tokens, instruction["line_num"])
                     parsed_instructions.append(parsed)
                 else:
-                    print(f"Invalid macro expansion item: {line}")
+                    print(f"{RED}[Error] Invalid macro expansion item: {line}{RESET}")
                     exit(1)
 
             instruction_list[i:i+1] = parsed_instructions
@@ -75,8 +80,6 @@ def dispatch_macros(instruction_list, max_passes=10):
             # so do not increment i here.
             
         else:
-            print("The following instruction was not expanded: ")
-            print(instruction)
             i += 1
                 
     return instruction_list
@@ -84,85 +87,40 @@ def dispatch_macros(instruction_list, max_passes=10):
 def expand_immediates(instruction):
     print("Immediate is being expanded.")
     args = instruction.get("args", [])
+    opcode = instruction["opcode"]
+    
+    if len(args) < 2:
+        return None
+    
+    dest = args[0]
+    src = args[1]
 
-    # Expand instructions where the second argument is an immediate value.
-    if len(args) > 1 and isinstance(instruction["args"][1], int):
-        value = instruction["args"][1]
-        opcode = instruction["opcode"]
-        dest = instruction["args"][0]
-
+    # Only expand if second arg is immediate (int), and NOT if it's already a SET
+    if isinstance(src, int):
+        if opcode == "set":
+            # Don't expand a raw SET of immediate — already base level
+            return None
+        
         return [
-            f"set {TEMP_REGISTER} #{value}",
+            f"set {TEMP_REGISTER} #{src}",
             f"{opcode} {dest} {TEMP_REGISTER}"
         ]
     
     return None
 
-def expand_cmp(instruction):
-    left, right = instruction["args"]
-
-    # If already comparing temp register to itself, stop
-    if left == TEMP_REGISTER and right == TEMP_REGISTER:
-        return None
-
-    print("CMP is being expanded.")
-
-
-    return [
-        f"mov {TEMP_REGISTER} {left}",
-        f"sub {TEMP_REGISTER} {right}",
-        f"cmp {TEMP_REGISTER} {TEMP_REGISTER}"
-    ]
-
-
 def expand_jmp(instruction):
-    # If already low-level jmp, just return None (no expansion)
-    if isinstance(instruction["args"][0], int):
+    opcode = instruction["opcode"]
+    reg, immediate, label = instruction["args"]
+    
+    # If the second argument is an immediate, expand it.
+    if isinstance(immediate, int):
+        return [
+            f"set {TEMP_REGISTER} #{immediate}",
+            f"{opcode} {reg} {TEMP_REGISTER} @{label}"
+        ]
+    else:
         return None
 
-    print("Jump is being expanded.")
-
-    register = None
-    label = None
-    line_number = instruction["line_num"]
-    mode = None
-
-    if instruction["opcode"] == "jmp":
-        mode = 0
-        label = instruction["args"][0]
-    elif instruction["opcode"] == "jgt":
-        mode = 1
-        label = instruction["args"][1]
-        register = instruction["args"][0]
-    elif instruction["opcode"] == "jeq":
-        mode = 2
-        label = instruction["args"][1]
-        register = instruction["args"][0]
-    elif instruction["opcode"] == "jlt":
-        mode = 3
-        label = instruction["args"][1]
-        register = instruction["args"][0]
-
-    if mode != 0:
-        return [
-            f"cmp {register} {register}",
-            {
-                "type": "instruction",
-                "opcode": "jmp",
-                "args": [mode, label],
-                "line_num": line_number
-            }
-        ]
-    
-    else:
-        return [
-            {
-                "type": "instruction",
-                "opcode": "jmp",
-                "args": [mode, label],
-                "line_num": line_number
-            }
-        ]
 
     
 def expand_rand(instruction):
@@ -197,8 +155,6 @@ macro_expanders = {
     "sub": expand_immediates,
     "mul": expand_immediates,
     "div": expand_immediates,
-    "cmp": expand_cmp,
-    "jmp": expand_jmp,
     "jlt": expand_jmp,
     "jeq": expand_jmp,
     "jgt": expand_jmp,

@@ -6,7 +6,6 @@ valid_instruction_tokens = [
     "set",
     "inc",
     "dec",
-    "cmp",
     "mov",
     "jmp",
     "halt",
@@ -18,6 +17,11 @@ valid_instruction_tokens = [
     "rand",
     "hardcall"
 ]
+
+RESET = "\033[0m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
 
 valid_user_registers = { f"u{i}" for i in range(1, 9) }
 valid_auto_registers = { f"a{i}" for i in range(1, 5) } 
@@ -37,9 +41,9 @@ valid_instruction_grammar = {
     "halt": [],
     "load": ["register", "ram_address"],
     "store": ["ram_address", "register"],
-    "jlt": ["register", "label"],
-    "jeq": ["register", "label"],
-    "jgt": ["register", "label"],
+    "jlt": ["register", "register_or_immediate", "label"],
+    "jeq": ["register", "register_or_immediate", "label"],
+    "jgt": ["register", "register_or_immediate", "label"],
     "rand": ["register", "register_or_immediate", "register_or_immediate"],
     "hardcall": ["immediate"]
 }
@@ -63,7 +67,7 @@ class TokenStream:
     def expect(self, kind):
         token = self.next()
         if token is None:
-            print(f"[Line {self.line_num}] Expected {kind}, but got end of line.")
+            print(f"{RED}[Line {self.line_num}] Expected {kind}, but got end of line.{RESET}")
             exit(1)
 
         if kind == "instruction":
@@ -75,31 +79,31 @@ class TokenStream:
             if token in package_namespaces:
                 return token # Namespace instruction
         
-            print(f"[Line {self.line_num}] Expected instruction, got '{token}'.")
+            print(f"{RED}[Line {self.line_num}] Expected instruction, got '{token}'.{RESET}")
             exit(1)
 
         elif kind == "register":
             if token not in valid_registers:
-                print(f"[Line {self.line_num}] Expected register, got '{token}'.")
+                print(f"{RED}[Line {self.line_num}] Expected register, got '{token}'.{RESET}")
                 exit(1)
             return token
         
         elif kind == "immediate":
             if not token.startswith("#"):
-                print(f"[Line {self.line_num}] Expected immediate value, got '{token}'.")
+                print(f"{RED}[Line {self.line_num}] Expected immediate value, got '{token}'.{RESET}")
                 exit(1)
             
             try:
                 return int(token[1:])
             except ValueError:
-                print(f"[Line {self.line_num}] Invalid number: '{token}'.")
+                print(f"{RED}[Line {self.line_num}] Invalid number: '{token}'.{RESET}")
                 exit(1)
         
         elif kind == "label":
             if token.startswith("@"):
                 return token[1:]
             else:
-                print(f"[Line {self.line_num}] Expected label, got '{token}'.")
+                print(f"{RED}[Line {self.line_num}] Expected label, got '{token}'.{RESET}")
                 exit(1)
 
         elif kind == "register_or_immediate":
@@ -109,10 +113,10 @@ class TokenStream:
                 try:
                     return int(token[1:])
                 except ValueError:
-                    print(f"[Line {self.line_num}] Invalid immediate: '{token}'")
+                    print(f"{RED}[Line {self.line_num}] Invalid immediate: '{token}'{RESET}")
                     exit(1)
             else:
-                print(f"[Line {self.line_num}] Expected register or immediate, got '{token}'")
+                print(f"{RED}[Line {self.line_num}] Expected register or immediate, got '{token}'{RESET}")
                 exit(1)
         
         elif kind == "ram_address":
@@ -121,24 +125,24 @@ class TokenStream:
                 try:
                     return int(token[1:])
                 except ValueError:
-                    print(f"[Line {self.line_num}] Invalid RAM address: '{token}'")
+                    print(f"{RED}[Line {self.line_num}] Invalid RAM address: '{token}'{RESET}")
                     exit(1)
             # Label reference
             elif token.startswith("@"):
                 return token[1:]  # leave as unresolved label for now
             else:
-                print(f"[Line {self.line_num}] Expected RAM address (e.g. #12 or @label), got '{token}'")
+                print(f"{RED}[Line {self.line_num}] Expected RAM address (e.g. #12 or @label), got '{token}'{RESET}")
                 exit(1)
 
         elif kind == "string":
             if not (token.startswith('"') and token.endswith('"')):
-                print(f"[Line {self.line_num}] Expected string, got '{token}'")
+                print(f"{RED}[Line {self.line_num}] Expected string, got '{token}'{RESET}")
                 exit(1)
             
             return token[1:-1]
 
         else:
-            print(f"Unknown expect type: {kind}")
+            print(f"{RED}[Error] Unknown expect type: {kind}{RESET}")
             exit(1)
         
 
@@ -148,13 +152,12 @@ def parse_instruction(ts: TokenStream):
     if first_token in package_namespaces:
         subcommand = ts.next().lower()
         if subcommand is None:
-            print(f"[Line {ts.line_num}] Expected subcommand after namespace '{first_token}'")
+            print(f"{RED}[Line {ts.line_num}] Expected subcommand after namespace '{first_token}'{RESET}")
             exit(1)
         
-        print(package_namespaces[first_token])
         grammar = package_namespaces[first_token]["grammar"].get(subcommand)
         if grammar is None:
-            print(f"[Line {ts.line_num}] Unknown subcommand '{subcommand}' in namespace '{first_token}'")
+            print(f"{RED}[Line {ts.line_num}] Unknown subcommand '{subcommand}' in namespace '{first_token}'{RESET}")
             exit(1)
 
         parsed_args = []
@@ -162,7 +165,7 @@ def parse_instruction(ts: TokenStream):
             parsed_args.append(ts.expect(expected_type))
 
         if ts.peek() is not None:
-            print(f"[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'")
+            print(f"{RED}[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'{RESET}")
             exit(1)
         
         return {
@@ -183,7 +186,7 @@ def parse_instruction(ts: TokenStream):
 
     # Make sure there are no additional arguments that should not be there
     if ts.peek() is not None:
-        print(f"[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'")
+        print(f"{RED}[Line {ts.line_num}] Unexpected additional argument: '{ts.peek()}'{RESET}")
         exit(1)
     
     return {
@@ -195,7 +198,7 @@ def parse_instruction(ts: TokenStream):
 
 def parse_line(tokens, line_num):
     if not tokens:
-        print(f"[Line {line_num}] Empty or invalid line.")
+        print(f"{RED}[Line {line_num}] Empty or invalid line.{RESET}")
         exit(1)
     
     if tokens[0].startswith("@"):

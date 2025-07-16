@@ -1,3 +1,8 @@
+RESET = "\033[0m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
+
 def find_labels(instructions):
     label_addresses = {}
     address = 1
@@ -23,13 +28,13 @@ def normalise_arg(arg, label_addresses):
             # Assembler register: strip 'a', convert to int, add 8
             return int(arg[1:]) + 8
         else:
-            print(f"Unknown argument string: {arg}")
+            print(f"{RED}[Argument Normalisation Failure] Unknown argument string: {arg}{RESET}")
             exit(1)
     elif isinstance(arg, int):
         # Immediate number, leave as is
         return arg
     else:
-        print(f"Unexpected argument type: {type(arg)}")
+        print(f"{RED}[Argument Normalisation Failure] Unexpected argument type: {type(arg)}{RESET}")
         exit(1)
 
 

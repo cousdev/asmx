@@ -27,7 +27,6 @@ for line_num, line in source_file:
             break
 
 instructions = macros.dispatch_macros(results)
-print(instructions)
 
 address_table = codegen.find_labels(instructions)
 

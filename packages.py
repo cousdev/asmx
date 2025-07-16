@@ -3,6 +3,10 @@ import importlib.util
 import parser
 
 macro_packages = {}
+RESET = "\033[0m"
+RED = "\033[31m"
+GREEN = "\033[32m"
+YELLOW = "\033[33m"
 
 def load_all_packages(package_dir="packages"):
 
@@ -24,14 +28,14 @@ def load_all_packages(package_dir="packages"):
             namespace = reg["namespace"]
 
             if namespace in macro_packages:
-                print(f"Duplicate namespace '{namespace}' found in {filename}")
+                print(f"{RED}[Package Import Failure] Duplicate namespace '{namespace}' found in {filename}{RESET}")
                 exit(1)
         
             macro_packages[namespace] = reg
             parser.register_package_macros(namespace, reg)
 
         else:
-            print(f"[Warning] Skipping '{filename}': Package Registry could not be found.")
+            print(f"{YELLOW}[Faulty Package Warning] Skipping '{filename}': Package Registry could not be found.{RESET}")
 
 def get_all_macro_registries():
     return macro_packages
