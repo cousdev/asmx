@@ -1,6 +1,6 @@
 import os
 import importlib.util
-import parser
+from . import parser
 
 macro_packages = {}
 RESET = "\033[0m"

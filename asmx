@@ -1,10 +1,12 @@
+#!/usr/bin/env python3
+
 # asmx assembler
 # This file is the main entry point into the assembler
-import tokeniser
-import parser
-import macros
-import codegen
-import packages
+import asmx_core.tokeniser as tokeniser
+import asmx_core.parser as parser
+import asmx_core.macros as macros
+import asmx_core.codegen as codegen
+import asmx_core.packages as packages
 
 import sys
 

@@ -1,5 +1,5 @@
-import parser
-import packages
+from . import parser
+from . import packages
 
 TEMP_REGISTER = "a1"
 TEMP_MIN = "a1"
