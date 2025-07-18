@@ -5,17 +5,17 @@ TEMP_REGISTER = "a1"
 TEMP_MIN = "a1"
 TEMP_MAX = "a2"
 
-RESET = "\033[0m"
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
+from colorama import init, Fore, Style
+RESET = Style.RESET_ALL
+RED = Fore.RED
+GREEN = Fore.GREEN
+YELLOW = Fore.YELLOW
 
 def dispatch_macros(instruction_list, max_passes=50):
     i = 0
     passes = 0
 
     while i < len(instruction_list):
-        print(f"{YELLOW}[Macro Pass Count] Macro pass round: {passes}")
         instruction = instruction_list[i]
         if passes > max_passes:
             print(f"{RED}[Macro Recursion] Macro expansion exceeded max passes. Possible infinite recursion.{RESET}")
@@ -28,7 +28,6 @@ def dispatch_macros(instruction_list, max_passes=50):
         if instruction.get("type") == "macro":
             namespace = instruction["namespace"]
             subcommand = instruction["subcommand"].lower()
-            print(f"{GREEN}[Macro Notification] Processing macro '{namespace} {subcommand}'{RESET}")
             
             registry = packages.get_all_macro_registries().get(namespace)
             if not registry:
@@ -56,9 +55,6 @@ def dispatch_macros(instruction_list, max_passes=50):
             expansion = None
 
         if expansion:
-            print(f"{GREEN}[Expansion] Expansion result for {instruction}:{RESET}")
-            print(expansion)
-
             # Convert expanded lines to parsed instruction dicts
             parsed_instructions = []
             for line in expansion:
@@ -85,7 +81,6 @@ def dispatch_macros(instruction_list, max_passes=50):
     return instruction_list
 
 def expand_immediates(instruction):
-    print("Immediate is being expanded.")
     args = instruction.get("args", [])
     opcode = instruction["opcode"]
     
@@ -129,8 +124,6 @@ def expand_rand(instruction):
     # If both min and max are already registers (not ints), no expansion needed
     if not isinstance(min_val, int) and not isinstance(max_val, int):
         return None  # Stop expanding here
-
-    print("RAND is being expanded.")
 
     expanded_lines = []
     

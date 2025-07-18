@@ -18,10 +18,11 @@ valid_instruction_tokens = [
     "hardcall"
 ]
 
-RESET = "\033[0m"
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
+from colorama import init, Fore, Style
+RESET = Style.RESET_ALL
+RED = Fore.RED
+GREEN = Fore.GREEN
+YELLOW = Fore.YELLOW
 
 valid_user_registers = { f"u{i}" for i in range(1, 9) }
 valid_auto_registers = { f"a{i}" for i in range(1, 5) } 

@@ -2,13 +2,16 @@ import os
 import importlib.util
 from . import parser
 
-macro_packages = {}
-RESET = "\033[0m"
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
 
-def load_all_packages(package_dir="packages"):
+macro_packages = {}
+from colorama import init, Fore, Style
+RESET = Style.RESET_ALL
+RED = Fore.RED
+GREEN = Fore.GREEN
+YELLOW = Fore.YELLOW
+
+def load_all_packages():
+    package_dir = os.path.join(os.path.dirname(__file__), "packages")
 
     for filename in os.listdir(package_dir):
         if not filename.endswith(".py") or filename.startswith("__"):

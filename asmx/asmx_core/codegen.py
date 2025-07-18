@@ -1,7 +1,8 @@
-RESET = "\033[0m"
-RED = "\033[31m"
-GREEN = "\033[32m"
-YELLOW = "\033[33m"
+from colorama import init, Fore, Style
+RESET = Style.RESET_ALL
+RED = Fore.RED
+GREEN = Fore.GREEN
+YELLOW = Fore.YELLOW
 
 def find_labels(instructions):
     label_addresses = {}
