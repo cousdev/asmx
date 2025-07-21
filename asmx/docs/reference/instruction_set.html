@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Instruction Set Reference - ASMX Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Instruction Set Reference";
+        var mkdocs_page_input_path = "reference/instruction_set.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> ASMX Docs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome!</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Getting%20Setup.html">1. Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/What%20is%20ASMX.html">2. What is ASMX</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Registers.html">3. Registers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Instruction%20Format.html">4. Instruction Format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Reading%20Instructions.html">5. Reading Instruction References</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Arithmetic.html">6. Arithmetic</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Instruction Set Reference</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#arithmetic-instructions">Arithmetic Instructions</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#add">ADD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#sub">SUB</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mul">MUL</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#div">DIV</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#inc">INC</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#dec">DEC</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#rand">RAND</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#memory">Memory</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#set">SET</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#mov">MOV</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#load">LOAD</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#store">STORE</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#jumps">Jumps</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#jmp">JMP</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#jlt">JLT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#jeq">JEQ</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#jgt">JGT</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hardware">Hardware</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#halt">HALT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#hardcall">HARDCALL</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="registers.html">Registers Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="hardcalls.html">Hardcalls Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="iokit.html">IOKit Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="characters.html">Character Encoding Reference</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/hello_world.html">Hello World</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/rps.html">Rock, Paper, Scissors</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASMX Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Instruction Set Reference</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="instruction-set-reference">Instruction Set Reference</h1>
+<p>This reference contains a list of all Instructions in ASMX Assembly. This list only contains <strong>base instructions</strong>, if you are looking for macro instructions in specific packages, check the package references. If you do not know how to read Instruction References, check the guide <a href="../guide/Reading%20Instructions.html">here.</a></p>
+<h2 id="arithmetic-instructions">Arithmetic Instructions</h2>
+<p>Arithmetic instructions perform mathematical operations on the VM.</p>
+<h3 id="add">ADD</h3>
+<pre><code class="language-asm">ADD [r] [ri]
+</code></pre>
+<p>Sets <code>[r]</code> to <code>[r]</code> plus <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">ADD u1 #6 ; Sets u1 to u1 + 6.
+</code></pre>
+<h3 id="sub">SUB</h3>
+<pre><code class="language-asm">SUB [r] [ri]
+</code></pre>
+<p>Sets <code>[r]</code> to <code>[r]</code> minus <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">SUB u2 #10 ; Sets u2 to u2 - 10.
+</code></pre>
+<h3 id="mul">MUL</h3>
+<pre><code class="language-asm">MUL [r] [ri]
+</code></pre>
+<p>Sets <code>[r]</code> to <code>[r]</code> multiplied by <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">MUL u3 #20 ; Sets u3 to u3 * 20.
+</code></pre>
+<h3 id="div">DIV</h3>
+<pre><code class="language-asm">DIV [r] [ri]
+</code></pre>
+<p>Sets <code>[r]</code> to <code>[r]</code> divided by <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">DIV u4 #15 ; Sets u4 to u4 / 15.
+</code></pre>
+<h3 id="inc">INC</h3>
+<pre><code class="language-asm">INC [r]
+</code></pre>
+<p>Sets <code>[r]</code> to <code>[r]</code> plus one. For example:</p>
+<pre><code class="language-asm">INC u2 ; Sets u2 to u2 + 1
+</code></pre>
+<h3 id="dec">DEC</h3>
+<pre><code class="language-asm">DEC [r]
+</code></pre>
+<p>Sets <code>[r]</code> to <code>[r]</code> minus one. For example:</p>
+<pre><code class="language-asm">DEC u6 ; Sets u6 to u6 - 1.
+</code></pre>
+<h3 id="rand">RAND</h3>
+<pre><code class="language-asm">RAND [r] [ri] [ri]
+</code></pre>
+<p>Sets <code>[r]</code> to a random value between the first <code>[ri]</code> and the second <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">RAND u7 #15 #u5 ; Sets u7 to a random value between 15 and u5.
+</code></pre>
+<hr />
+<h2 id="memory">Memory</h2>
+<p>Memory instructions allow you to interact with memory hardware, such as registers and RAM. It also allows you to move data between memory hardware.</p>
+<h3 id="set">SET</h3>
+<pre><code class="language-asm">SET [r] [i]
+</code></pre>
+<p>Sets <code>[r]</code> to <code>[i]</code>. For example:</p>
+<pre><code class="language-asm">SET u8 #32 ; Set u8 = 32
+</code></pre>
+<h3 id="mov">MOV</h3>
+<pre><code class="language-asm">MOV [r] [r]
+</code></pre>
+<p>Sets <code>[r]</code> to the second <code>[r]</code>. Duplicates/copies the contents of a register into another register. For example:</p>
+<pre><code class="language-asm">MOV u4 u6 ; Sets u4 to the contents of u6.
+</code></pre>
+<h3 id="load">LOAD</h3>
+<pre><code class="language-asm">LOAD [r] [ra]
+</code></pre>
+<p>Retrieves data from RAM via the <code>[ra]</code> RAM address and stores the data in <code>[r]</code>. For example:</p>
+<pre><code class="language-asm">LOAD u4 #20 ; Get value of RAM address 20 and copy it into u4.
+</code></pre>
+<h3 id="store">STORE</h3>
+<pre><code class="language-asm">STORE [ra] [r]
+</code></pre>
+<p>Copies data from <code>[r]</code> and stores it in RAM Address <code>[ra]</code>. For example:</p>
+<pre><code class="language-asm">STORE #13 u5 ; Copy the value of u5 into RAM Address #13.
+</code></pre>
+<hr />
+<h2 id="jumps">Jumps</h2>
+<p>Jump commands allow for loops and comparisons, and can act like if-else and for loops.</p>
+<h3 id="jmp">JMP</h3>
+<pre><code class="language-asm">JMP [label]
+</code></pre>
+<p>Jumps to a label. For example:</p>
+<pre><code class="language-asm">JMP @my_label ; Jumps to the part of the code labelled with my_label.
+
+@my_label
+... ; Starts running code here.
+</code></pre>
+<h3 id="jlt">JLT</h3>
+<pre><code class="language-asm">JLT [r] [ri] [label]
+</code></pre>
+<p>Jumps to a label if <code>[r]</code> is less than <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">JLT u3 #10 @my_label ; If u3 &lt; 10, then jump to my_label.
+
+@my_label
+... ; Run code here.
+</code></pre>
+<h3 id="jeq">JEQ</h3>
+<pre><code class="language-asm">JEQ [r] [ri] [label]
+</code></pre>
+<p>Jumps to a label if <code>[r]</code> is equal to <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">JEQ u6 #13 @my_label ; If u6 = 13, then jump to my_label.
+
+@my_label
+... ; Run code here.
+</code></pre>
+<h3 id="jgt">JGT</h3>
+<pre><code class="language-asm">JGT [r] [ri] [label]
+</code></pre>
+<p>Jumps to a label if <code>[r]</code> is greater than <code>[ri]</code>. For example:</p>
+<pre><code class="language-asm">JGT u5 #24 @my_label ; If u5 &gt; 24, then jump to my_label.
+
+@my_label
+... ; Run code here.
+</code></pre>
+<hr />
+<h2 id="hardware">Hardware</h2>
+<p>These commands allow for a bridge between code and hardware. By creating your own hardware on the VM, you can use these commands to interact with the hardware.</p>
+<h3 id="halt">HALT</h3>
+<pre><code class="language-asm">HALT
+</code></pre>
+<p>Stops the program execution immediately. For example:</p>
+<pre><code class="language-asm">... ; Other instructions
+HALT ; Stop all scripts.
+</code></pre>
+<h3 id="hardcall">HARDCALL</h3>
+<pre><code class="language-asm">HARDCALL [i]
+</code></pre>
+<p>Sends a hardware call, which is received by a piece of hardware and executed. Code execution is paused until the hardware has finished executing (synchronous). For example:</p>
+<pre><code class="language-asm">HARDCALL #100 ; Sends a hardware call to the IOKit virtual GPU to render the current buffer.
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../guide/Arithmetic.html" class="btn btn-neutral float-left" title="6. Arithmetic"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="registers.html" class="btn btn-neutral float-right" title="Registers Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../guide/Arithmetic.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="registers.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

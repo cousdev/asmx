@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>6. Arithmetic - ASMX Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "6. Arithmetic";
+        var mkdocs_page_input_path = "guide/Arithmetic.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> ASMX Docs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome!</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="index.html">Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Getting%20Setup.html">1. Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="What%20is%20ASMX.html">2. What is ASMX</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Registers.html">3. Registers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Instruction%20Format.html">4. Instruction Format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Reading%20Instructions.html">5. Reading Instruction References</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">6. Arithmetic</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#set">SET</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#add">ADD</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#sub">SUB</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#mul">MUL</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#div">DIV</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#your-first-program">Your first program!</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#how-to-assemble-your-program">How to assemble your program</a>
+    </li>
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/instruction_set.html">Instruction Set Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/registers.html">Registers Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/hardcalls.html">Hardcalls Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/iokit.html">IOKit Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/characters.html">Character Encoding Reference</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/hello_world.html">Hello World</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/rps.html">Rock, Paper, Scissors</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASMX Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Guide</li>
+      <li class="breadcrumb-item active">6. Arithmetic</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="6-arithmetic">6. Arithmetic</h1>
+<p>Now we have the boring stuff out of the way, we can start learning some important instructions, and you can start writing your own code! The first instructions to learn are arithmetic (maths). The ASMX VM supports only basic Maths operations currently, these being the 4 operations. These are the 5 instructions you will need to know for this chapter:</p>
+<pre><code class="language-asm">; These are all instruction references, they're now coming into use.
+SET [r] [i]
+ADD [r] [ri]
+SUB [r] [ri]
+MUL [r] [ri]
+DIV [r] [ri]
+</code></pre>
+<p>Each operation is fairly similar, apart from <code>SET</code>.</p>
+<h2 id="set">SET</h2>
+<p>The <code>SET</code> command will set <code>[r]</code> to <code>[i]</code>.</p>
+<pre><code class="language-asm">SET u1 #13 ; Sets register u1 to have the value of 13
+</code></pre>
+<h2 id="add">ADD</h2>
+<p>The <code>ADD</code> command will set <code>[r]</code> to <code>[r]</code> plus <code>[ri]</code>.</p>
+<pre><code class="language-asm">ADD u1 #10 ; u1 = u1 + 10
+ADD u2 u3  ; u2 = u2 + u3
+</code></pre>
+<h2 id="sub">SUB</h2>
+<p>The <code>SUB</code> command will set <code>[r]</code> to <code>[r]</code> minus <code>[ri]</code>.</p>
+<pre><code class="language-asm">SUB u1 #10 ; u1 = u1 - 10
+SUB u2 u3  ; u2 = u2 - u3
+</code></pre>
+<h2 id="mul">MUL</h2>
+<p>The <code>MUL</code> command will set <code>[r]</code> to <code>[r]</code> times <code>[ri]</code>.</p>
+<pre><code class="language-asm">MUL u1 #10 ; u1 = u1 * 10
+MUL u2 u3  ; u2 = u2 * u3
+</code></pre>
+<h2 id="div">DIV</h2>
+<p>The <code>DIV</code> command will set <code>[r]</code> to <code>[r]</code> divided by <code>[ri]</code>.</p>
+<pre><code class="language-asm">DIV u1 #10 ; u1 = u1 / 10
+DIV u2 u3  ; u2 = u2 / u3
+</code></pre>
+<h2 id="your-first-program">Your first program!</h2>
+<p>Okay, I think you finally know enough to write your first piece of ASMX assembly code (if you haven't done so already). We're going to write a simple program that adds two numbers together, and stores it in a register, let's say <code>u1</code>. Let's break down what the program needs to do:</p>
+<ul>
+<li>Set two registers to numbers of your choice.</li>
+<li>Add the two registers.</li>
+<li>Store the result in <code>u1</code>.</li>
+</ul>
+<p>I want you to try this by yourself. Open up a Text Editor. It really doesn't matter which, it could be as simple as Notepad, or as complex as Vim. Use the Instruction references and descriptions above to try and make your program. This is what I came up with:</p>
+<pre><code class="language-asm">SET u1 #10 ; Set the u1 register to 10.
+SET u2 #20 ; Set the u2 register to 20.
+ADD u1 u2 ; u1 = u1 + u2 (10 + 20)
+</code></pre>
+<h2 id="how-to-assemble-your-program">How to assemble your program</h2>
+<p>Before we run our code on the VM, we need to assemble it, which will turn our assembly into machine code that the VM can understand. Open up a Terminal, and run <code>asmx &lt;your_file&gt; &lt;output_file&gt;</code>, replacing <code>&lt;your_file&gt;</code> with the name of your file, and <code>&lt;output_file&gt;</code> with the name of the file that will be the result of the assembler. By running this, you should get a result that will look something like this:</p>
+<pre><code class="language-asm">set_1_10
+set_2_20
+add_1_2
+</code></pre>
+<p>This is ASMX VM Machine Code. The first thing you will probably notice is that the machine code is not that far off our assembly code, and that is because the Machine Code was designed to map very closely to the ASMX assembly language. You'll also notice that the Machine Code is not in binary. This is because Scratch does not understand binary, so we use base-10 instead, which helps make it more readable.</p>
+<hr />
+<p>Next, we must load our Machine Code into the VM. Go to Scratch, and open up your VM project (if you don't have it, click <a href="Getting%20Setup.html">here</a>). Go to the "Lists" section in the Block Palette and make sure that the "ROM" List is ticked. You'll see something like this:</p>
+<p><img alt="ASMX ROM List" src="../img/ASMX_ROM_List.png" /></p>
+<p>ROM is an acronym for Read-Only Memory, and it is the list where our Machine Code instructions are stored. You will notice that there are already machine code instructions in there. That is because the default "Welcome to ASMX!" program is loaded. You can disregard that. Right clicking on the list will bring up a menu, you want to click "import".</p>
+<p><img alt="ASMX Import ROM" src="../img/ASMX%20Import.png" /></p>
+<p>Once you have clicked on "import", navigate to your machine code file, and select it. You will see that the old default program has been erase and your new machine code is in there. Now, let's check if our program works. Since we are using registers, we want to open up the registers list. If you saved your result in <code>u1</code> like I did, then you should see the result of the addition in item 1 of your list.</p>
+<p><img alt="ASMX Addition Operation" src="../img/ASMX%20Addition.png" /></p>
+<p>In my program, I added 10 and 20, and you can see in <code>u1</code> that I got the result of 30. Congratulations on running your first program! As we learn more instructions, we will be able to build much cooler programs than this. The keen-eyed among you might have noticed something odd about the registers list. If there are only 8 registers, then why are there 12 items in the registers list? Well, that's because I lied. There are technically 12 registers, however the last 4 registers are called <strong>autoregisters</strong>. Autoregisters are an advanced topic that I'll talk about later, but effectively, they are reserved registers that the assembler needs to function properly. We built 12 registers in total, but 8 of them are reserved for the user (that is what the u means in front of the registers), and 4 of them are reserved for the assembler. The user is not allowed to use the autoregisters, only the assembler. As you learn more about how the VM and Assembler work, you'll learn why the assembler even needs its own registers in the first place.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="Reading%20Instructions.html" class="btn btn-neutral float-left" title="5. Reading Instruction References"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../reference/instruction_set.html" class="btn btn-neutral float-right" title="Instruction Set Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="Reading%20Instructions.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../reference/instruction_set.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

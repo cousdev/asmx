@@ -1,6 +1,22 @@
 # asmx assembler
 # This file is the main entry point into the assembler
 
+def open_docs():
+    import webbrowser
+    from pathlib import Path
+
+    docs_path = Path(__file__).parent / "docs" / "index.html"
+    docs_url = f"file://{docs_path.resolve()}"
+
+    try:
+        if not webbrowser.open(docs_url):
+            raise Exception("[Error] Couldn't open docs, no suitable browser found.")
+        else:
+            print("Opening documentation...")
+    except Exception as e:
+        print("You could try manually opening it here:")
+        print(f"{docs_url}")
+
 def main():
     import asmx.asmx_core.tokeniser as tokeniser
     import asmx.asmx_core.parser as parser
@@ -30,7 +46,7 @@ def main():
 
     if args.docs:
         # Shows docs
-        print(f"{Fore.RED}Sorry, the documentation is in progress.{Style.RESET_ALL}")
+        open_docs()
         return
 
     if args.version:

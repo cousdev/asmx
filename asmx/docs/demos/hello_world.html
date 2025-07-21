@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Hello World - ASMX Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Hello World";
+        var mkdocs_page_input_path = "demos/hello_world.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> ASMX Docs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome!</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Getting%20Setup.html">1. Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/What%20is%20ASMX.html">2. What is ASMX</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Registers.html">3. Registers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Instruction%20Format.html">4. Instruction Format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Reading%20Instructions.html">5. Reading Instruction References</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Arithmetic.html">6. Arithmetic</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/instruction_set.html">Instruction Set Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/registers.html">Registers Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/hardcalls.html">Hardcalls Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/iokit.html">IOKit Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/characters.html">Character Encoding Reference</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Hello World</a>
+    <ul class="current">
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="rps.html">Rock, Paper, Scissors</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASMX Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Examples</li>
+      <li class="breadcrumb-item active">Hello World</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="hello-world">Hello World</h1>
+<p>This is an example ASMX Assembly File for "Hello World!". You're welcome to experiment and tweak it as much as you want!</p>
+<pre><code class="language-asm">; hello_world.asm
+; This file shows you how to write Hello World onto the screen.
+; This file uses the IOKit package, which comes pre-installed (you can find it at packages/io.py).
+; The IOKit package contains a bunch of macros, which makes it easy to output text, or collect input.
+; I highly recommend reading and playing around with this file before reading the hello_world_no_iokit.asm file.
+
+; To assemble this file and run it:
+; Move this file out of the demos folder and into the asmx folder (parent folder)
+; Run (in the parent folder), python asmx.py hello_world.asm hello_world.txt
+; If everything worked, you should see a hello_world.txt file generated.
+; Open up your Scratch ASMX VM (download it at the Releases page on the GitHub)
+; Open the ROM List, right-click, press &quot;import&quot;, and then click on hello_world.txt
+; Press the green flag button!
+
+IO CONFIG #-221 #150 #100 #10   ; This command sets a couple of default values for Scratch.
+                                ; #-221: Sets the X position to -221
+                                ; #150 : Sets the Y position to 150
+                                ; #100 : Sets the size to 100% (default size)
+                                ; #10 : Sets the spacing between each letter to 10. 
+
+IO TEXT #50 &quot;Hello World!&quot;      ; This command:
+                                ; 1. Converts the text &quot;Hello World!&quot; into numbers (computers do not understand text, so we must encode it).
+                                ; 2. Writes those numbers into RAM (memory), starting at address #50.
+                                ; 3. Tells Scratch to read the text, starting at RAM address #50, and render the text on the screen.
+
+HALT                            ; Halt is the equivalent to the &quot;stop all&quot; block.
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../reference/characters.html" class="btn btn-neutral float-left" title="Character Encoding Reference"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="rps.html" class="btn btn-neutral float-right" title="Rock, Paper, Scissors">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../reference/characters.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="rps.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

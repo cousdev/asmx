@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Rock, Paper, Scissors - ASMX Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Rock, Paper, Scissors";
+        var mkdocs_page_input_path = "demos/rps.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> ASMX Docs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome!</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Getting%20Setup.html">1. Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/What%20is%20ASMX.html">2. What is ASMX</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Registers.html">3. Registers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Instruction%20Format.html">4. Instruction Format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Reading%20Instructions.html">5. Reading Instruction References</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Arithmetic.html">6. Arithmetic</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/instruction_set.html">Instruction Set Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/registers.html">Registers Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/hardcalls.html">Hardcalls Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/iokit.html">IOKit Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/characters.html">Character Encoding Reference</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="hello_world.html">Hello World</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Rock, Paper, Scissors</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASMX Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Examples</li>
+      <li class="breadcrumb-item active">Rock, Paper, Scissors</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="rock-paper-scissors">Rock, Paper, Scissors!</h1>
+<p>This is an example ASMX Assembly File for the game "Rock, Paper, Scissors!". You're welcome to experiment and tweak it as much as you want!</p>
+<pre><code class="language-asm">; rps.asm
+
+; This file shows the code for a Rock, Paper, Scissors game.
+; I recommend learning the basics before reading or editing this program.
+; This program uses a good collection of features from the assembler and the VM, making it a good example program.
+
+; First, we use some IOKit macros to ask the user to choose an option.
+IO CONFIG #-221 #150 #100 #10
+IO TEXT #10 &quot;Choose R, P, or S:&quot;
+
+; After that, we move 20 pixels down, and wait for the user to enter in an input.
+IO CONFIG #-221 #130 #100 #10
+IO INPUT #50
+
+; Next, the computer generates a random number
+RAND u1 #1 #3   ; Chooses a choice from 1 - 3
+                ; 1 is rock
+                ; 2 is paper
+                ; 3 is scissors
+
+JEQ u1 #1 @computer_rock ; If the computer chose rock, jump to the @computer_rock label
+JEQ u1 #2 @computer_paper ; If the computer chose paper, jump to the @computer_paper label
+JMP @computer_scissors ; If it wasn't rock or paper, then jump to scissors.
+
+
+
+@computer_rock
+IO CONFIG #-221 #110 #100 #10 ; This block of code informs the user that the CPU played Rock.
+IO TEXT #10 &quot;CPU played Rock.&quot;
+JMP @load_user_choice
+
+@computer_paper
+IO CONFIG #-221 #110 #100 #10 ; This block of code informs the user that the CPU played Paper.
+IO TEXT #10 &quot;CPU played Paper.&quot;
+JMP @load_user_choice
+
+@computer_scissors
+IO CONFIG #-221 #110 #100 #10 ; This block of code informs the user that the CPU played Scissors.
+IO TEXT #10 &quot;CPU played Scissors.&quot;
+JMP @load_user_choice
+
+
+; We need to get the users choice from the input. We stored the choice at RAM address #50.
+@load_user_choice
+LOAD u2 #50
+
+; Next, we check which key was pressed, and jump to a corresponding label.
+JEQ u2 #50 @played_rock ; 50 is R for Rock
+
+JEQ u2 #48 @played_paper ; 48 is P for Paper
+
+JEQ u2 #51 @played_scissors ; 51 is S for Scissors
+
+; If they didn't play a valid move, tell them that it didn't understand, and stop the program.
+IO CONFIG #-221 #90 #100 #10
+IO TEXT #10 &quot;I didn't understand.&quot;
+HALT
+
+; Write on the screen what they chose.
+@played_rock
+IO CONFIG #-221 #90 #100 #10
+IO TEXT #10 &quot;You played rock.&quot;
+SET u2 #1
+JMP @compare
+
+
+@played_paper
+IO CONFIG #-221 #90 #100 #10
+IO TEXT #10 &quot;You played paper.&quot;
+SET u2 #2
+JMP @compare
+
+
+@played_scissors
+IO CONFIG #-221 #90 #100 #10
+IO TEXT #10 &quot;You played scissors.&quot;
+SET u2 #3
+JMP @compare
+
+
+
+@compare
+; Compare player (u2) vs machine (u1)
+
+; If the player and machine chose the same thing, go to draw
+JEQ u2 u1 @draw
+
+; Calculate the difference between the player and machine
+SUB u2 u1
+
+; If the difference is 1, or -2, then jump to win.
+JEQ u2 #1 @win
+JEQ u2 #-2 @win
+
+; Else, you lose.
+JMP @lose
+
+
+; Write on screen what the result was.
+@draw
+IO CONFIG #-221 #70 #100 #10
+IO TEXT #10 &quot;You tied.&quot;
+HALT
+
+@win
+IO CONFIG #-221 #70 #100 #10
+IO TEXT #10 &quot;You won!&quot;
+HALT
+
+@lose
+IO CONFIG #-221 #70 #100 #10
+IO TEXT #10 &quot;You lost.&quot;
+HALT
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="hello_world.html" class="btn btn-neutral float-left" title="Hello World"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="hello_world.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

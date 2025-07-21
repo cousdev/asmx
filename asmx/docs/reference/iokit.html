@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>IOKit Reference - ASMX Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "IOKit Reference";
+        var mkdocs_page_input_path = "reference/iokit.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> ASMX Docs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome!</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Getting%20Setup.html">1. Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/What%20is%20ASMX.html">2. What is ASMX</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Registers.html">3. Registers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Instruction%20Format.html">4. Instruction Format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Reading%20Instructions.html">5. Reading Instruction References</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Arithmetic.html">6. Arithmetic</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="instruction_set.html">Instruction Set Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="registers.html">Registers Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="hardcalls.html">Hardcalls Reference</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">IOKit Reference</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#iokit-controller-memory-map">IOKit Controller Memory Map</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#iokit-modes">IOKit Modes</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#text-output-mode">Text Output Mode</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#text-input-mode">Text Input Mode</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#iokit-package-macros">IOKit Package Macros</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#io-config">IO CONFIG</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#io-text">IO TEXT</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#io-input">IO INPUT</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#hardcalls">Hardcalls</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#100">100</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="characters.html">Character Encoding Reference</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/hello_world.html">Hello World</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/rps.html">Rock, Paper, Scissors</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASMX Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">IOKit Reference</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="iokit-reference">IOKit Reference</h1>
+<p>This reference describes the IOKit Controller in detail, its hardcall's, as well as the IOKit package's macro instructions.</p>
+<h2 id="iokit-controller-memory-map">IOKit Controller Memory Map</h2>
+<p>Read further below for more details about each field and its properties.</p>
+<table>
+<thead>
+<tr>
+<th>Memory Address</th>
+<th>Name</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Mode</td>
+<td>Which mode the IOKit Virtual Hardware is in.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>X</td>
+<td>The X position of the render (if applicable).</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Y</td>
+<td>The Y position of the render (if applicable).</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Size</td>
+<td>The size of the render (if applicable).</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Text Pointer</td>
+<td>The address in RAM of where the text value is or should be stored.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Text Spacing</td>
+<td>The spacing of each letter of text (if applicable).</td>
+</tr>
+</tbody>
+</table>
+<h2 id="iokit-modes">IOKit Modes</h2>
+<p>The IOKit virtual hardware can be put in different modes, each mode corresponding to a different command to execute. The mode corresponds to:</p>
+<ul>
+<li>Text output mode is represented as <strong>mode 1</strong>.</li>
+<li>Text input mode is represented as <strong>mode 2</strong>.</li>
+</ul>
+<h3 id="text-output-mode">Text Output Mode</h3>
+<p>When the IOKit virtual hardware is placed in Text Output mode, the virtual hardware will read the RAM starting at the text pointer, and write each letter in the RAM until a null terminator character is reached. This text will be rendered at the X and Y, as well as at Size (100% is the default), with the text spacing (10 is the recommended value).</p>
+<h3 id="text-input-mode">Text Input Mode</h3>
+<p>When the IOKit virtual hardware is placed in Text Input mode, the virtual hardware will lock execution of the code, record and write keypresses from the user onto the screen at X, Y, with the Size and Spacing. When the Enter key is pressed, the text that was recorded will be written into the Text Pointer, and code execution will resume.</p>
+<hr />
+<h2 id="iokit-package-macros">IOKit Package Macros</h2>
+<p>All installations of ASMX come with the IOKit package by default as <strong>part of the standard library</strong>. All IOKit package macros are under the namespace <code>io</code>. By using these macros, they can automatically configure the IOKit controller, write text into the buffer, etc.</p>
+<h3 id="io-config">IO CONFIG</h3>
+<pre><code class="language-asm">IO CONFIG &lt;x [i]&gt; &lt;y [i]&gt; &lt;size [i]&gt; &lt;spacing [i]&gt;
+</code></pre>
+<p>This macro configures the IOKit controller (apart from the mode and text pointer), in one command. For example:</p>
+<pre><code class="language-asm">IO CONFIG #-221 #150 #100 #10 ; Set the controller to X: -221 Y: 150, with default size (100) and default spacing (10).
+</code></pre>
+<h3 id="io-text">IO TEXT</h3>
+<pre><code class="language-asm">IO TEXT &lt;text pointer [ra]&gt; &lt;text [string]&gt;
+</code></pre>
+<p>This macro sets the IOKit controller's mode to 1, writes the text into the text pointer, adds a null terminator, then writes the text with <code>HARDCALL #100</code>. For example:</p>
+<pre><code class="language-asm">IO TEXT #10 &quot;Hello&quot; ; Writes the word Hello into RAM starting at address 10, going up. 
+                    ; It then sets the controller mode to 1, then executes the virtual hardware.
+</code></pre>
+<h3 id="io-input">IO INPUT</h3>
+<pre><code class="language-asm">IO INPUT &lt;text pointer [ra]&gt;
+</code></pre>
+<p>This macro sets the IOKit controller's mode to 2, and then locks execution and starts rendering keypresses onto the screen. When enter is pressed, the string is then written into the text pointer, and code execution resumes. For example:</p>
+<pre><code class="language-asm">IO INPUT #50 ; Get user input and put it in RAM address 50.
+</code></pre>
+<h2 id="hardcalls">Hardcalls</h2>
+<p>Configuring the IOKit controller alone does not trigger the virtual hardware to begin rendering. Instead, the virtual hardware listens for a hardcall to be made from the code. Hardcalls only need to be done manually if you <strong>are not using macros.</strong> Macros automatically handle hardcall's for you.</p>
+<h3 id="100">100</h3>
+<p>A hardcall with the immediate of 100 will trigger the virtual hardware to read the controller configuration, and execute that configuration. For example, if you have set up the controller to write text to the screen, and entered text in the buffer, then this hardcall will execute that command.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="hardcalls.html" class="btn btn-neutral float-left" title="Hardcalls Reference"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="characters.html" class="btn btn-neutral float-right" title="Character Encoding Reference">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="hardcalls.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="characters.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

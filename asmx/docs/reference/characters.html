@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Character Encoding Reference - ASMX Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Character Encoding Reference";
+        var mkdocs_page_input_path = "reference/characters.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> ASMX Docs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome!</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/index.html">Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Getting%20Setup.html">1. Getting Started</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/What%20is%20ASMX.html">2. What is ASMX</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Registers.html">3. Registers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Instruction%20Format.html">4. Instruction Format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Reading%20Instructions.html">5. Reading Instruction References</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../guide/Arithmetic.html">6. Arithmetic</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="instruction_set.html">Instruction Set Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="registers.html">Registers Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="hardcalls.html">Hardcalls Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="iokit.html">IOKit Reference</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Character Encoding Reference</a>
+    <ul class="current">
+    </ul>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/hello_world.html">Hello World</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/rps.html">Rock, Paper, Scissors</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASMX Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Reference</li>
+      <li class="breadcrumb-item active">Character Encoding Reference</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="character-encoding-reference">Character Encoding Reference</h1>
+<p>The ASMX VM does not understand letters, only numbers. This is very similar to how real computers work. So to draw text on the screen, we must map each letter to a number, using a <strong>character encoding</strong>. One example of a character encoding is ASCII, however, the ASMX VM does not use ASCII, instead it has its own unique encoding, which can be shown in detail below.</p>
+<table>
+<thead>
+<tr>
+<th>Number</th>
+<th>Character</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>!</td>
+</tr>
+<tr>
+<td>2</td>
+<td>#</td>
+</tr>
+<tr>
+<td>3</td>
+<td>$</td>
+</tr>
+<tr>
+<td>4</td>
+<td>%</td>
+</tr>
+<tr>
+<td>5</td>
+<td>&amp;</td>
+</tr>
+<tr>
+<td>6</td>
+<td>'</td>
+</tr>
+<tr>
+<td>7</td>
+<td>"</td>
+</tr>
+<tr>
+<td>8</td>
+<td>(</td>
+</tr>
+<tr>
+<td>9</td>
+<td>)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>*</td>
+</tr>
+<tr>
+<td>11</td>
+<td>+</td>
+</tr>
+<tr>
+<td>12</td>
+<td>,</td>
+</tr>
+<tr>
+<td>13</td>
+<td>-</td>
+</tr>
+<tr>
+<td>14</td>
+<td>.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>/</td>
+</tr>
+<tr>
+<td>16</td>
+<td>0</td>
+</tr>
+<tr>
+<td>17</td>
+<td>1</td>
+</tr>
+<tr>
+<td>18</td>
+<td>2</td>
+</tr>
+<tr>
+<td>19</td>
+<td>3</td>
+</tr>
+<tr>
+<td>20</td>
+<td>4</td>
+</tr>
+<tr>
+<td>21</td>
+<td>5</td>
+</tr>
+<tr>
+<td>22</td>
+<td>6</td>
+</tr>
+<tr>
+<td>23</td>
+<td>7</td>
+</tr>
+<tr>
+<td>24</td>
+<td>8</td>
+</tr>
+<tr>
+<td>25</td>
+<td>9</td>
+</tr>
+<tr>
+<td>26</td>
+<td>:</td>
+</tr>
+<tr>
+<td>27</td>
+<td>;</td>
+</tr>
+<tr>
+<td>28</td>
+<td>&lt;</td>
+</tr>
+<tr>
+<td>29</td>
+<td>=</td>
+</tr>
+<tr>
+<td>30</td>
+<td>&gt;</td>
+</tr>
+<tr>
+<td>31</td>
+<td>?</td>
+</tr>
+<tr>
+<td>32</td>
+<td>@</td>
+</tr>
+<tr>
+<td>33</td>
+<td>A</td>
+</tr>
+<tr>
+<td>34</td>
+<td>B</td>
+</tr>
+<tr>
+<td>35</td>
+<td>C</td>
+</tr>
+<tr>
+<td>36</td>
+<td>D</td>
+</tr>
+<tr>
+<td>37</td>
+<td>E</td>
+</tr>
+<tr>
+<td>38</td>
+<td>F</td>
+</tr>
+<tr>
+<td>39</td>
+<td>G</td>
+</tr>
+<tr>
+<td>40</td>
+<td>H</td>
+</tr>
+<tr>
+<td>41</td>
+<td>I</td>
+</tr>
+<tr>
+<td>42</td>
+<td>J</td>
+</tr>
+<tr>
+<td>43</td>
+<td>K</td>
+</tr>
+<tr>
+<td>44</td>
+<td>L</td>
+</tr>
+<tr>
+<td>45</td>
+<td>M</td>
+</tr>
+<tr>
+<td>46</td>
+<td>N</td>
+</tr>
+<tr>
+<td>47</td>
+<td>O</td>
+</tr>
+<tr>
+<td>48</td>
+<td>P</td>
+</tr>
+<tr>
+<td>49</td>
+<td>Q</td>
+</tr>
+<tr>
+<td>50</td>
+<td>R</td>
+</tr>
+<tr>
+<td>51</td>
+<td>S</td>
+</tr>
+<tr>
+<td>52</td>
+<td>T</td>
+</tr>
+<tr>
+<td>53</td>
+<td>U</td>
+</tr>
+<tr>
+<td>54</td>
+<td>V</td>
+</tr>
+<tr>
+<td>55</td>
+<td>W</td>
+</tr>
+<tr>
+<td>56</td>
+<td>X</td>
+</tr>
+<tr>
+<td>57</td>
+<td>Y</td>
+</tr>
+<tr>
+<td>58</td>
+<td>Z</td>
+</tr>
+<tr>
+<td>59</td>
+<td>[</td>
+</tr>
+<tr>
+<td>60</td>
+<td>\</td>
+</tr>
+<tr>
+<td>61</td>
+<td>]</td>
+</tr>
+<tr>
+<td>62</td>
+<td>^</td>
+</tr>
+<tr>
+<td>63</td>
+<td>_</td>
+</tr>
+<tr>
+<td>64</td>
+<td>`</td>
+</tr>
+<tr>
+<td>65</td>
+<td>{</td>
+</tr>
+<tr>
+<td>66</td>
+<td>|</td>
+</tr>
+<tr>
+<td>67</td>
+<td>}</td>
+</tr>
+<tr>
+<td>68</td>
+<td>~</td>
+</tr>
+<tr>
+<td>69</td>
+<td>enter</td>
+</tr>
+<tr>
+<td>70</td>
+<td>space</td>
+</tr>
+<tr>
+<td>71</td>
+<td>left arrow</td>
+</tr>
+</tbody>
+</table>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="iokit.html" class="btn btn-neutral float-left" title="IOKit Reference"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../demos/hello_world.html" class="btn btn-neutral float-right" title="Hello World">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="iokit.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../demos/hello_world.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

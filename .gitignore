@@ -1,6 +1,6 @@
 .vscode/
 .DS_Store
 test_programs/
-asmx_venv/
+asmx-venv/
 dist/
 TODO.md

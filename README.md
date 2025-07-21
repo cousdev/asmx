@@ -20,12 +20,20 @@ ASMX is perfect for people who want to learn how computers work with low-level p
 - Python 3.8 or above
 - A local clone/copy of this repo
 
-### 🚀 Running the Assembler
-Ensure you are in the right directory/folder, before running:
-```bash
-python3 asmx.py <path to program> <output>
+### 🚀 Quick Start
+To download ASMX, run:
+
 ```
-This command turns your .asm file into a .txt file. You can then run this command on the Scratch VM, by clicking "See Inside", then going to the ROM list, right clicking, and then pressing "Import".
+pip install asmx
+```
+
+Congrats, you just installed ASMX! Open up the guide, by running:
+
+```
+asmx --docs
+```
+
+Then click on the Guide section.
 
 ## Project Structure
 ```
@@ -33,12 +41,23 @@ asmx/
 ├── asmx_core/           # Core Python package (assembler logic, macro dispatcher, parser, etc.)
 │   ├── macros.py
 │   ├── parser.py
-│   └── ...
-├── packages/            # User-defined + Standard library packages
-├── demos/               # Sample/demo programs
+│   └── packages/        # User-defined + Standard library packages
+├── docs/                # Documentation for ASMX
 ├── asmx.py              # Entry point, run this file
-└── README.md
+README.md
+setup.py
+setup.cfg
+...
 ```
+
+## Documentation
+Documentation is built with [MkDocs.](https://www.mkdocs.org/) To open the documentation, run:
+
+```
+asmx --docs
+```
+
+If you are looking to contribute to the documentation, go to the [asmx-docs repo.](https://github.com/cousdev/asmx-docs/)
 
 ## Contributing
 All contributions are welcome! You could:

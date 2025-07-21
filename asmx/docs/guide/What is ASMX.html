@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>2. What is ASMX - ASMX Docs</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "2. What is ASMX";
+        var mkdocs_page_input_path = "guide/What is ASMX.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../index.html" class="icon icon-home"> ASMX Docs
+        </a>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome!</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Guide</span></p>
+              <ul class="current">
+                  <li class="toctree-l1"><a class="reference internal" href="index.html">Contents</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Getting%20Setup.html">1. Getting Started</a>
+                  </li>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">2. What is ASMX</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#what-is-a-virtual-machine">What is a Virtual Machine?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#so-how-do-we-run-a-vm-on-scratch">So how do we run a VM on Scratch?</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#the-asmx-virtual-machine">The ASMX Virtual Machine</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#the-asmx-assembler">The ASMX Assembler</a>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Registers.html">3. Registers</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Instruction%20Format.html">4. Instruction Format</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Reading%20Instructions.html">5. Reading Instruction References</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="Arithmetic.html">6. Arithmetic</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/instruction_set.html">Instruction Set Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/registers.html">Registers Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/hardcalls.html">Hardcalls Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/iokit.html">IOKit Reference</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/characters.html">Character Encoding Reference</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Examples</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/hello_world.html">Hello World</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../demos/rps.html">Rock, Paper, Scissors</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ASMX Docs</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../index.html" class="icon icon-home" aria-label="Docs"></a></li>
+          <li class="breadcrumb-item">Guide</li>
+      <li class="breadcrumb-item active">2. What is ASMX</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="2-what-is-assembly">2. What is Assembly?</h1>
+<p>Ever since computers were made, programmers have faced a problem. Computer speak in Machine Code (represented as Binary), and Machine Code isn't readable by humans. So in response, programmers built a "translator", which would turn a readable human language, into machine code language. This way, programmers could write in a language that was easy for them to understand, whilst computers could use the machine code language that they understand.</p>
+<hr />
+<p>These "translators" still exist today, and they are called <strong>assemblers.</strong> And the languages that assemblers translate into machine code are called <strong>assembly languages</strong>. Programming languages like C, Python and even Scratch are all descendants of Assembly Languages, and assemblers quietly work in the background to make all the tech we use every day possible.</p>
+<h2 id="what-is-a-virtual-machine">What is a Virtual Machine?</h2>
+<p>A machine is a pretty vague term, but according to computer scientist John von Neumann, a machine has a CPU, a Memory Unit, Input devices, and Output devices. A Virtual Machine is when we simulate a machine, on a machine. This is achieved by using code to simulate a CPU, memory unit etc. A Virtual Machine is completely capable of doing anything a regular machine can, it can run games and operating systems! Companies like Microsoft run thousands of Virtual Machine's every day!</p>
+<h2 id="so-how-do-we-run-a-vm-on-scratch">So how do we run a VM on Scratch?</h2>
+<p>Well let's go back to our list, to make a machine, we need:</p>
+<ul>
+<li>A CPU</li>
+<li>A Memory Unit</li>
+<li>Input Devices</li>
+<li>Output Devices</li>
+</ul>
+<p>In Scratch, a Memory Unit is just a list. A Scratch List can store 200 000 items, plenty of memory. Input Devices? We have blocks that detect keys and the mouse position. Output Devices? We have the Stage, where we can display anything we want with Sprites and the Pen tool. The CPU? We have blocks that can do arithmetic. In conclusion, there is absolutely no reason why we could not create a Virtual Machine on Scratch.</p>
+<h2 id="the-asmx-virtual-machine">The ASMX Virtual Machine</h2>
+<p>The ASMX Virtual Machine does everything I said above (and more)! With the ASMX VM, we have a programmable computer that can run games, and show videos and more. But this brings us back to the problem I brought up at the beginning. The VM does not speak the same language we do. Like all machines, the VM speaks machine code, and we need an assembler (a translator) to be able to tell our Virtual Machine what to do.</p>
+<h2 id="the-asmx-assembler">The ASMX Assembler</h2>
+<p>The ASMX Assembler translates between Assembly Language, and the ASMX VM's machine code language. There are lots of different assembly languages, because there are lots of different types of computers, however the ASMX assembler only understands ASMX assembly. But just because our assembly language is different than others, most low-level concepts carry over to several different assembly languages.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="Getting%20Setup.html" class="btn btn-neutral float-left" title="1. Getting Started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="Registers.html" class="btn btn-neutral float-right" title="3. Registers">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="Getting%20Setup.html" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="Registers.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
