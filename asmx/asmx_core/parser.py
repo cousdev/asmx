@@ -15,7 +15,9 @@ valid_instruction_tokens = [
     "jeq",
     "jgt",
     "rand",
-    "hardcall"
+    "hardcall",
+    "loadr",
+    "storer"
 ]
 
 from colorama import init, Fore, Style
@@ -46,7 +48,8 @@ valid_instruction_grammar = {
     "jeq": ["register", "register_or_immediate", "label"],
     "jgt": ["register", "register_or_immediate", "label"],
     "rand": ["register", "register_or_immediate", "register_or_immediate"],
-    "hardcall": ["immediate"]
+    "hardcall": ["immediate"],
+    "loadr": ["register", "register"]
 }
 
 package_namespaces = {}
