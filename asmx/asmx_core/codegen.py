@@ -17,11 +17,12 @@ def find_labels(instructions):
     return label_addresses
 
 
-def normalise_arg(arg, label_addresses):
+def normalise_arg(arg, label_addresses, current_addr=None):
     if isinstance(arg, str):
         if arg in label_addresses:
             # Replace label with its resolved address
-            return label_addresses[arg]
+            return label_addresses[arg] - (current_addr + 1)
+
         elif arg.startswith("u"):
             # User register: strip 'u' and convert to int
             return int(arg[1:])
@@ -41,14 +42,20 @@ def normalise_arg(arg, label_addresses):
 
 def generate_code(instructions, label_addresses):
     output_lines = []
+    address = 1
     for instruction in instructions:
         if instruction.get("type") != "instruction":
             continue
 
         opcode = instruction["opcode"]
-        normalised_args = [str(normalise_arg(arg, label_addresses)) for arg in instruction["args"]]
+        normalised_args = [
+            str(normalise_arg(arg, label_addresses, address))
+            for arg in instruction["args"]
+        ]
         output_line = "_".join([opcode] + normalised_args)
         output_lines.append(output_line)
+
+        address += 1
 
     return output_lines
 

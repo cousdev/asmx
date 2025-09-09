@@ -11,7 +11,7 @@ RED = Fore.RED
 GREEN = Fore.GREEN
 YELLOW = Fore.YELLOW
 
-def dispatch_macros(instruction_list, max_passes=50):
+def dispatch_macros(instruction_list, max_passes=500):
     i = 0
     passes = 0
 

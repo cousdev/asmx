@@ -74,58 +74,62 @@ character_encoding = {
 
 
 def expand_text(instruction):
-    start_addr, string = instruction["args"]
-    line_num = instruction["line_num"]
+    string, x, y, size, spacing = instruction["args"]
     
     expanded = []
 
+    # Push spacing, size, y, x
+    expanded.append(f"SET a1 #{spacing}")
+    expanded.append("STACK PUSH a1")
+    # Push the text pointer
+    expanded.append("STACK PUSH a3")
+    expanded.append(f"SET a1 #{size}")
+    expanded.append("STACK PUSH a1")
+    expanded.append(f"SET a1 #{y}")
+    expanded.append("STACK PUSH a1")
+    expanded.append(f"SET a1 #{x}")
+    expanded.append("STACK PUSH a1")
     # Set the mode to TextOutput mode.
     expanded.append("SET a1 #1")
-    expanded.append("STORE #1 a1")
+    expanded.append("STACK PUSH a1")
 
-    # Set the text pointer to the start location.
-    expanded.append(f"set a1 #{start_addr}")
-    expanded.append("store #5 a1")
+    
 
     for i, char in enumerate(string.upper()):
         encoded = character_encoding.get(char, 72)
         expanded.append(f"set a1 #{encoded}")
-        expanded.append(f"store #{start_addr + i} a1")
+        expanded.append(f"storer a3 a1")
+        expanded.append("inc a3")
 
     # Add null terminator
     expanded.append(f"set a1 #0")
-    expanded.append(f"store #{start_addr + len(string)} a1")
+    expanded.append(f"storer a3 a1")
+    expanded.append("inc a3")
 
     # Add a hardcall (100)
     expanded.append("hardcall #100")
 
     return expanded
 
-def expand_config(instruction):
-    x, y, size, spacing = instruction["args"]
-    return [
-        f"SET a1 #{x}",
-        "STORE #2 a1",
-        f"SET a1 #{y}",
-        "STORE #3 a1",
-        f"SET a1 #{size}",
-        "STORE #4 a1",
-        f"SET a1 #{spacing}",
-        "STORE #6 a1"
-    ]
-
 def expand_input(instruction):
-    start_addr = instruction["args"][0]
-
+    x, y, size, spacing = instruction["args"]
     expanded = []
 
+    # Push spacing, size, y, x
+    expanded.append(f"SET a1 #{spacing}")
+    expanded.append("STACK PUSH a1")
+    # Push the text pointer
+    expanded.append("STACK PUSH a3")
+    expanded.append(f"SET a1 #{size}")
+    expanded.append("STACK PUSH a1")
+    expanded.append(f"SET a1 #{y}")
+    expanded.append("STACK PUSH a1")
+    expanded.append(f"SET a1 #{x}")
+    expanded.append("STACK PUSH a1")
+    
     # Set the mode to TextInput mode.
     expanded.append("SET a1 #2")
-    expanded.append("STORE #1 a1")
-
-    # Set the text pointer to the start location.
-    expanded.append(f"set a1 #{start_addr}")
-    expanded.append("store #5 a1")
+    expanded.append("STACK PUSH a1")
 
     # Make a hardcall
     expanded.append("hardcall #100")
@@ -137,13 +141,11 @@ def expand_input(instruction):
 package_registry = {
     "namespace": "io",
     "grammar": {
-        "text": ["ram_address", "string"],
-        "config": ["immediate", "immediate", "immediate", "immediate"],
-        "input": ["ram_address"]
+        "text": ["string", "immediate", "immediate", "immediate", "immediate"],
+        "input": ["immediate", "immediate", "immediate", "immediate"]
     },
     "macros": {
         "text": expand_text,
-        "config": expand_config,
         "input": expand_input
     }
 }

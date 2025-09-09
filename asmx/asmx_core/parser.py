@@ -49,7 +49,8 @@ valid_instruction_grammar = {
     "jgt": ["register", "register_or_immediate", "label"],
     "rand": ["register", "register_or_immediate", "register_or_immediate"],
     "hardcall": ["immediate"],
-    "loadr": ["register", "register"]
+    "loadr": ["register", "register"],
+    "storer": ["register", "register"]
 }
 
 package_namespaces = {}
